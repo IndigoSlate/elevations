@@ -10,7 +10,7 @@ router.get('/', function(req, res){
 	res.send('Elevations API')
 })
 
-router.post('/elevations', function(req, res){
+router.post('/', function(req, res){
 	googleMapsClient.elevation({
 	  locations: req.body
 		}, (err, resp) => {
