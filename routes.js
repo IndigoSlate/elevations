@@ -31,6 +31,7 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
 	var groups = [], stuff = [], size = 200;
+	var bodyLength = req.body.length;
 
 	while (req.body.length > 0) {
 		groups.push(req.body.splice(0, size));
@@ -39,14 +40,16 @@ router.post('/', function(req, res){
 	groups.forEach(function(group, idx){
 		getElevations(group).then(function(results){
 			Array.prototype.push.apply(stuff, results)
-			console.log(stuff.length)
-			if (idx = group.length - 1) {
-				res.status(200).send(stuff)
+			if (idx == groups.length - 1) {
+				if (stuff.length == bodyLength) {
+					res.status(200).send(stuff)
+				}
 			}
 		}).catch(function(err){
 			res.send({'error':err})
 		})
 	})	
+	// res.status(200).send(stuff)
 })
 
 module.exports = router;
