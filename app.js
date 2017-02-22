@@ -6,8 +6,8 @@ var fs     = require('fs');
 var app = express();
 
 // accept large bodies
-app.use(body.json({parameterLimit: '5000000'}));
-app.use(body.urlencoded({parameterLimit: '5000000', extended: true}));
+app.use(body.json({parameterLimit: 5000000, limit: '5000kb'}));
+app.use(body.urlencoded({parameterLimit: 5000000, limit: '5000kb', extended: true}));
 
 // api routes
 app.use('/', require('./routes'));
