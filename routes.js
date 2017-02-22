@@ -1,6 +1,7 @@
 var express = require('express');
-var config = require('./config');
-var router = express.Router();
+var config  = require('./config');
+var router  = express.Router();
+var merge   = require('merge')
 
 var googleMapsClient = require('@google/maps').createClient({
   key: config.api_key
@@ -17,7 +18,12 @@ router.post('/', function(req, res){
 	  if (err) {
 	    res.status(400).send(err)
 	  } else {
-	  	res.status(200).send(resp.json.results)
+	  	results = resp.json.results
+	  	results.map(function(obj, idx) {
+	  		delete obj.location
+	  		return merge(obj, req.body[idx])
+	  	})
+	  	res.status(200).send(results)
 	  }
 	})
 })
